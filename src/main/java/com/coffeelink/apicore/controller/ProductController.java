@@ -1,11 +1,11 @@
-package controller;
+package com.coffeelink.apicore.controller;
 
-import model.Product;
+import com.coffeelink.apicore.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.ProductService;
+import com.coffeelink.apicore.service.ProductService;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable Long id){
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         if (productService.deleteProduct(id)){
             return ResponseEntity.noContent().build();
         } else  {

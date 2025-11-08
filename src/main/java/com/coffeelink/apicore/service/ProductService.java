@@ -1,9 +1,9 @@
-package service;
+package com.coffeelink.apicore.service;
 
-import model.Product;
+import com.coffeelink.apicore.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.ProductRepository;
+import com.coffeelink.apicore.repository.ProductRepository;
 
 import java.time.Instant;
 import java.util.List;
@@ -44,7 +44,7 @@ public class ProductService {
     }
 
     public boolean deleteProduct(Long id) {
-        if (productRepository.existsById(id)) {
+        if (!productRepository.existsById(id)) {
             return false;
         }
         productRepository.deleteById(id);

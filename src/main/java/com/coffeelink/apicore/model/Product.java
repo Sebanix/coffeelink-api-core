@@ -1,4 +1,4 @@
-package model;
+package com.coffeelink.apicore.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
