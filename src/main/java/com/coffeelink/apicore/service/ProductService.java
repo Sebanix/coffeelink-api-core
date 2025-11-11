@@ -1,12 +1,14 @@
 package com.coffeelink.apicore.service;
 
 import com.coffeelink.apicore.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.coffeelink.apicore.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,8 +17,11 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getProducts(String nombre, BigDecimal precioMin, BigDecimal precioMax, Pageable pageable) {
+
+        BigDecimal max = (precioMax != null && precioMax.doubleValue() > 0) ? precioMax : null;
+
+        return productRepository.searchProducts(nombre, precioMin, max, pageable);
     }
 
     public Optional<Product> getProductById(Long id) {
@@ -24,10 +29,6 @@ public class ProductService {
     }
 
     public Product createProduct(Product product) {
-        if (product.getPrecio() == null || product.getPrecio().doubleValue() <= 0 ||
-            product.getStock() == null || product.getStock() < 0){
-            throw new IllegalArgumentException("Invalid product data");
-        }
         return productRepository.save(product);
     }
 
@@ -38,7 +39,7 @@ public class ProductService {
                     product.setDescripcion(productDetails.getDescripcion());
                     product.setPrecio(productDetails.getPrecio());
                     product.setStock(productDetails.getStock());
-                    product.setFechaCreacion(Instant.now());
+                    product.setFechaActualizacion(Instant.now());
                     return productRepository.save(product);
                 });
     }
