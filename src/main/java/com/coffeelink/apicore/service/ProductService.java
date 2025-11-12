@@ -39,6 +39,7 @@ public class ProductService {
                     product.setDescripcion(productDetails.getDescripcion());
                     product.setPrecio(productDetails.getPrecio());
                     product.setStock(productDetails.getStock());
+                    product.setImagenUrl(productDetails.getImagenUrl());
                     product.setFechaActualizacion(Instant.now());
                     return productRepository.save(product);
                 });
